@@ -13,6 +13,7 @@ const PROJECTS = [
     desc: 'Website platform for students to easily access study material. In collaboration with San Dieguito Union High School District to publish on the district website.',
     tech: ['React', 'Web Platform', 'Education Tech', 'District Partnership'],
     link: '#',
+    videoLink: 'https://www.youtube.com/watch?v=pOV8w6Uu-eY',
   },
   {
     cartTitle: "WEATHER\nAPP",
@@ -21,7 +22,8 @@ const PROJECTS = [
     fullTitle: 'Weather App',
     desc: 'Disguised safety mobile app that enables users to discreetly seek help in dangerous situations behind a functional weather interface. Won 2nd place at UC San Diego TritonHacks Hackathon 2025.',
     tech: ['Mobile App', 'Safety UX', 'Hackathon', 'Rapid Prototyping'],
-    link: '#',
+    link: 'https://youtu.be/yIYulqT0IMM?si=SG4xnkb7xV5k9JaQ',
+    videoLink: 'https://youtu.be/yIYulqT0IMM?si=SG4xnkb7xV5k9JaQ',
   },
   {
     cartTitle: "FREDDY\nFLIGHT",
@@ -31,6 +33,7 @@ const PROJECTS = [
     desc: 'Two-dimensional style video game based on Torrey Pines High School campus and mascot. Presented to San Dieguito Union High School District leadership.',
     tech: ['2D Game Dev', 'Campus Design', 'Presentation', 'Game Mechanics'],
     link: '#',
+    videoLink: 'https://www.youtube.com/watch?v=KO6E3_m0J1I',
   },
   {
     cartTitle: "DODO\nVISION",
@@ -40,6 +43,7 @@ const PROJECTS = [
     desc: 'Android mobile app using computer vision to identify endangered species from photos, logging verified data for conservation research. Submitted for UC San Diego TritonHacks Hackathon 2024.',
     tech: ['Android', 'Computer Vision', 'Conservation', 'Hackathon'],
     link: '#',
+    videoLink: 'https://www.youtube.com/watch?v=8mkn2xwIZjM',
   },
   {
     cartTitle: "SURF\nDEL MAR",
@@ -50,6 +54,15 @@ const PROJECTS = [
     tech: ['Web Design', 'Events', 'Community', 'Responsive Layout'],
     link: 'https://surfdelmarfestival.com',
   },
+  {
+    cartTitle: "TUTOR\nSYNC",
+    year: "'25",
+    genre: 'WEB / EDUCATION',
+    fullTitle: 'TutorSync - TPHS Peer Tutoring Club',
+    desc: 'A web application that empowers students to connect with peer tutors, schedule personalized or group study sessions, and receive real-time academic support. The platform features an intuitive scheduling system, collaborative learning environments, and a modern interface for seamless tutor-student interactions.',
+    tech: ['Web App', 'Scheduling', 'Peer Tutoring', 'Collaboration'],
+    link: 'https://fir-92709.web.app',
+  },
 ]
 
 const BOOT_LINES = (title) => [
@@ -58,6 +71,27 @@ const BOOT_LINES = (title) => [
   '> INITIALIZING...',
   '> READY.',
 ]
+
+const getYouTubeEmbedUrl = (url) => {
+  if (!url) return null
+
+  try {
+    const parsed = new URL(url)
+    if (parsed.hostname.includes('youtu.be')) {
+      const id = parsed.pathname.replace('/', '')
+      return id ? `https://www.youtube.com/embed/${id}` : null
+    }
+
+    if (parsed.hostname.includes('youtube.com')) {
+      const id = parsed.searchParams.get('v')
+      return id ? `https://www.youtube.com/embed/${id}` : null
+    }
+  } catch {
+    return null
+  }
+
+  return null
+}
 
 function AboutSection() {
   const [openProgress, setOpenProgress] = useState(0)
@@ -212,6 +246,7 @@ function ProjectsSection() {
   const [activeIdx, setActiveIdx] = useState(null)
   const [bootStage, setBootStage] = useState('off')
   const [visibleLines, setVisibleLines] = useState([])
+  const [isVideoOpen, setIsVideoOpen] = useState(false)
   const bootTimers = useRef([])
 
   const clearBootTimers = () => {
@@ -221,6 +256,7 @@ function ProjectsSection() {
 
   const selectProject = (i) => {
     clearBootTimers()
+    setIsVideoOpen(false)
     setActiveIdx(i)
     setBootStage('booting')
     setVisibleLines([])
@@ -245,6 +281,20 @@ function ProjectsSection() {
   }, [])
 
   const active = activeIdx !== null ? PROJECTS[activeIdx] : null
+  const activeVideoEmbedUrl = getYouTubeEmbedUrl(active?.videoLink)
+
+  useEffect(() => {
+    if (!isVideoOpen) return
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsVideoOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleEscape)
+    return () => window.removeEventListener('keydown', handleEscape)
+  }, [isVideoOpen])
 
   return (
     <section id="projects" className="mx-auto w-full max-w-7xl px-6 py-12 md:px-10 md:py-16">
@@ -263,7 +313,7 @@ function ProjectsSection() {
               animation: 'blink 1.4s step-end infinite',
             }}
           >
-            — SELECT YOUR GAME —
+            — SELECT PROJECT —
           </p>
 
           <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -357,18 +407,35 @@ function ProjectsSection() {
                     </span>
                   ))}
                 </div>
-                <a
-                  href={active.link}
-                  className="inline-block rounded px-5 py-3 text-xs transition-opacity hover:opacity-85"
-                  style={{
-                    fontFamily: "'Press Start 2P', monospace",
-                    fontSize: '9px',
-                    background: '#f0c040',
-                    color: '#1a1a00',
-                  }}
-                >
-                  ▶ VIEW PROJECT
-                </a>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href={active.link}
+                    className="inline-block rounded px-5 py-3 text-xs transition-opacity hover:opacity-85"
+                    style={{
+                      fontFamily: "'Press Start 2P', monospace",
+                      fontSize: '9px',
+                      background: '#f0c040',
+                      color: '#1a1a00',
+                    }}
+                  >
+                    ▶ VIEW PROJECT
+                  </a>
+                  {active.videoLink && (
+                    <button
+                      type="button"
+                      onClick={() => setIsVideoOpen(true)}
+                      className="inline-block rounded px-5 py-3 text-xs transition-opacity hover:opacity-85"
+                      style={{
+                        fontFamily: "'Press Start 2P', monospace",
+                        fontSize: '9px',
+                        background: '#97C459',
+                        color: '#1a1a00',
+                      }}
+                    >
+                      ▶ PLAY VIDEO
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -380,6 +447,48 @@ function ProjectsSection() {
           )}
         </div>
       </div>
+
+      {isVideoOpen && activeVideoEmbedUrl && active && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setIsVideoOpen(false)}
+        >
+          <div
+            className="w-full max-w-4xl rounded-xl border border-slate-600 bg-[#050510] p-3 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <p
+                className="text-xs"
+                style={{
+                  fontFamily: "'Press Start 2P', monospace",
+                  color: '#f0c040',
+                }}
+              >
+                {active.fullTitle.toUpperCase()} VIDEO
+              </p>
+              <button
+                type="button"
+                className="rounded px-3 py-1 text-xs"
+                style={{ background: '#1e1e38', color: '#f0c040' }}
+                onClick={() => setIsVideoOpen(false)}
+              >
+                CLOSE
+              </button>
+            </div>
+            <div className="aspect-video w-full overflow-hidden rounded-md bg-black">
+              <iframe
+                src={activeVideoEmbedUrl}
+                title={`${active.fullTitle} video`}
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
