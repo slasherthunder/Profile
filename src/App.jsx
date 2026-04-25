@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Hero from './components/Hero'
 import Navbar from './components/Navbar'
+import ExperienceSection from './components/ExperienceSection'
 import aboutMeImage from './assets/aboutme.png'
 import beforeAboutImage from './assets/beforeabout.png'
 
@@ -157,6 +158,7 @@ function AboutSection() {
         </div>
 
         {!isOpen && (
+          <>
           <div className="absolute inset-0 overflow-visible" style={{ transformStyle: 'preserve-3d' }}>
             <div
               className="absolute inset-x-0 top-0 origin-top overflow-hidden rounded-t-2xl"
@@ -191,6 +193,14 @@ function AboutSection() {
                   boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
                 }}
               />
+              <div className="pointer-events-none absolute bottom-30 left-0 right-0 z-20 flex justify-center px-80 text-center">
+                <span
+                  className="text-3xl font-extrabold uppercase tracking-[0.18em] text-white sm:text-4xl md:text-5xl lg:text-6xl"
+                  style={{ textShadow: '0 2px 20px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.45)' }}
+                >
+                  ABOUT ME
+                </span>
+              </div>
             </div>
 
             <div
@@ -226,17 +236,22 @@ function AboutSection() {
                   boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
                 }}
               />
+              <div className="pointer-events-none absolute left-0 right-0 top-40 z-20 flex justify-center px-4 text-center">
+                <span
+                  className="max-w-[28rem] text-lg font-semibold leading-snug text-white sm:text-xl md:text-2xl lg:text-3xl"
+                  style={{ textShadow: '0 2px 16px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.4)' }}
+                >
+                  pull down to learn more about me!
+                </span>
+              </div>
             </div>
           </div>
+          </>
         )}
       </div>
 
-      <p className="mt-6 text-center text-sm font-medium text-slate-500 transition-opacity duration-500">
-        {isOpen
-          ? '📦 Unboxed!'
-          : openProgress > 0
-            ? 'Keep pulling...'
-            : 'Drag down to open the box and learn more about me ↓'}
+      <p className="mt-6 min-h-[1.25rem] text-center text-sm font-medium text-slate-500 transition-opacity duration-500">
+        {isOpen ? '📦 Unboxed!' : openProgress > 0 ? 'Keep pulling...' : ''}
       </p>
     </section>
   )
@@ -522,11 +537,7 @@ function App() {
 
       <AboutSection />
       <ProjectsSection />
-      <PlaceholderSection
-        id="experience"
-        title="Experience"
-        description="List internships, leadership roles, or research with clear outcomes and responsibilities."
-      />
+      <ExperienceSection />
       <PlaceholderSection
         id="skills"
         title="Skills"
