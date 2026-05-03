@@ -8,6 +8,23 @@ html {
 body {
   margin: 0;
   font-family: 'Fredoka', sans-serif;
-  background: #f5f5f5;
   color: #1f2937;
+  /* Single continuous canvas — soft layered washes (no hard band between sections) */
+  background-color: #eef2f8;
+  background-image:
+    radial-gradient(ellipse 130% 85% at 50% -25%, rgba(125, 211, 252, 0.42), transparent 58%),
+    radial-gradient(ellipse 95% 65% at 105% 38%, rgba(167, 243, 208, 0.2), transparent 52%),
+    radial-gradient(ellipse 90% 55% at -8% 72%, rgba(253, 214, 170, 0.28), transparent 48%),
+    linear-gradient(180deg, #eef2f8 0%, #f3f5fb 52%, #eef2f8 100%);
+}
+
+/* Very subtle grain so flat gradients feel less “digital” */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
 }

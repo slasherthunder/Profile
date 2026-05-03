@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import headerImage from '../assets/header.png'
+import headerImage from '../assets/aaron.png'
 
 function Hero() {
   const introText = "Hi, I'm..."

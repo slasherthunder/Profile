@@ -25,8 +25,8 @@ function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-white/50 bg-[#f5f5f5]/80 backdrop-blur-md transition-shadow ${
-        scrolled ? 'shadow-md shadow-slate-900/5' : 'shadow-none'
+      className={`sticky top-0 z-50 border-b border-white/45 bg-white/40 backdrop-blur-xl transition-shadow ${
+        scrolled ? 'shadow-md shadow-slate-900/8' : 'shadow-none'
       }`}
     >
       <nav className="mx-auto flex h-18 w-full max-w-7xl items-center justify-between px-6 md:px-10">

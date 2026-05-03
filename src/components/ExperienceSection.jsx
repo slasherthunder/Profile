@@ -298,7 +298,7 @@ export default function ExperienceSection() {
 
   return (
     <section id="experience" className="mx-auto w-full max-w-7xl px-6 py-20">
-      <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-200 bg-slate-50/50 p-8 md:p-12">
+      <div className="relative overflow-hidden rounded-[2.5rem] bg-white/40 p-8 shadow-sm shadow-slate-900/[0.06] ring-1 ring-white/65 backdrop-blur-md md:p-12">
         <div className="mb-12 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Curriculum Vitae</p>
           <h2 className="mt-2 text-4xl font-black text-slate-900">Experience</h2>
@@ -306,7 +306,7 @@ export default function ExperienceSection() {
 
         <div
           ref={stageRef}
-          className="relative h-[600px] w-full rounded-3xl border border-dashed border-slate-300 bg-white/40"
+          className="relative h-[600px] w-full rounded-3xl bg-white/30 ring-1 ring-slate-200/50 backdrop-blur-[2px]"
         >
           <canvas
             ref={canvasRef}

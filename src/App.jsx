@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import Hero from './components/Hero'
 import Navbar from './components/Navbar'
 import ExperienceSection from './components/ExperienceSection'
@@ -148,7 +149,7 @@ function AboutSection() {
         onPointerCancel={handlePointerUp}
         style={{ perspective: '1200px' }}
       >
-        <div className="overflow-hidden rounded-2xl shadow-xl shadow-slate-400/25">
+        <div className="overflow-hidden rounded-2xl shadow-lg shadow-slate-900/10 ring-1 ring-white/50">
           <img
             src={aboutMeImage}
             alt="About me collage"
@@ -314,7 +315,7 @@ function ProjectsSection() {
   return (
     <section id="projects" className="mx-auto w-full max-w-7xl px-6 py-12 md:px-10 md:py-16">
       <div
-        className="rounded-3xl border border-slate-300/70 bg-white/60 p-8 shadow-sm shadow-slate-300/30 backdrop-blur-sm md:p-10"
+        className="rounded-3xl bg-white/45 p-8 shadow-sm shadow-slate-900/[0.06] ring-1 ring-white/70 backdrop-blur-md md:p-10"
       >
         <div
           className="rounded-2xl p-8 md:p-10"
@@ -516,7 +517,7 @@ function ProjectsSection() {
 function PlaceholderSection({ id, title, description }) {
   return (
     <section id={id} className="mx-auto w-full max-w-7xl px-6 py-12 md:px-10 md:py-16">
-      <div className="rounded-3xl border border-slate-300/70 bg-white/60 p-8 shadow-sm shadow-slate-300/30 backdrop-blur-sm md:p-10">
+      <div className="rounded-3xl bg-white/45 p-8 shadow-sm shadow-slate-900/[0.06] ring-1 ring-white/70 backdrop-blur-md md:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
           Placeholder Section
         </p>
@@ -529,30 +530,57 @@ function PlaceholderSection({ id, title, description }) {
   )
 }
 
+function SlideInSection({ direction = 'left', children }) {
+  const offsetX = direction === 'left' ? -72 : 72
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: offsetX }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: false, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 function App() {
   return (
-    <main className="min-h-screen bg-[#f5f5f5] text-slate-900">
+    <main className="relative z-[1] min-h-screen text-slate-900">
       <Navbar />
       <Hero />
 
-      <AboutSection />
-      <ProjectsSection />
-      <ExperienceSection />
-      <PlaceholderSection
-        id="skills"
-        title="Skills"
-        description="Show core technical skills, tools, and domains where you have strong hands-on experience."
-      />
-      <PlaceholderSection
-        id="resume"
-        title="Resume"
-        description="Embed a downloadable resume preview or a concise timeline summary of your achievements."
-      />
-      <PlaceholderSection
-        id="contact"
-        title="Contact"
-        description="Add your email, LinkedIn, GitHub, and a simple message form for easy outreach."
-      />
+      <SlideInSection direction="left">
+        <AboutSection />
+      </SlideInSection>
+      <SlideInSection direction="right">
+        <ProjectsSection />
+      </SlideInSection>
+      <SlideInSection direction="left">
+        <ExperienceSection />
+      </SlideInSection>
+      <SlideInSection direction="right">
+        <PlaceholderSection
+          id="skills"
+          title="Skills"
+          description="Show core technical skills, tools, and domains where you have strong hands-on experience."
+        />
+      </SlideInSection>
+      <SlideInSection direction="left">
+        <PlaceholderSection
+          id="resume"
+          title="Resume"
+          description="Embed a downloadable resume preview or a concise timeline summary of your achievements."
+        />
+      </SlideInSection>
+      <SlideInSection direction="right">
+        <PlaceholderSection
+          id="contact"
+          title="Contact"
+          description="Add your email, LinkedIn, GitHub, and a simple message form for easy outreach."
+        />
+      </SlideInSection>
     </main>
   )
 }
